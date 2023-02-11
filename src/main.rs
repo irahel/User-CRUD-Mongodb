@@ -12,5 +12,8 @@ use repository::mongodb_repo::MongoRepo;
 #[launch]
 fn rocket() -> _ {
     let db = MongoRepo::init();
-    rocket::build().manage(db).mount("/", routes![create_user])
+    rocket::build()
+        .manage(db)
+        .mount("/", routes![create_user])
+        .mount("/", routes![get_user])
 }
