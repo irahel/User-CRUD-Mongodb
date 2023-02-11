@@ -51,4 +51,24 @@ impl MongoRepo {
             .expect("Error getting user's detail");
         Ok(user_detail.unwrap())
     }
+
+    pub fn update_user(&self, id: &String, new_user: User) -> Result<UpdateResult, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        let new_doc = doc! {
+            "$set":
+                {
+                    "id": new_user.id,
+                    "name": new_user.name,
+                    "location": new_user.location,
+                    "title": new_user.title
+                },
+        };
+        let updated_doc = self
+            .col
+            .update_one(filter, new_doc, None)
+            .ok()
+            .expect("Error updating user");
+        Ok(updated_doc)
+    }
 }

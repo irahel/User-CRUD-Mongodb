@@ -4,9 +4,8 @@ mod repository;
 
 #[macro_use]
 extern crate rocket;
-use rocket::{get, http::Status, serde::json::Json};
 
-use api::user_api::create_user;
+use api::user_api::{create_user, get_user, update_user};
 use repository::mongodb_repo::MongoRepo;
 
 #[launch]
@@ -16,4 +15,5 @@ fn rocket() -> _ {
         .manage(db)
         .mount("/", routes![create_user])
         .mount("/", routes![get_user])
+        .mount("/", routes![update_user])
 }
