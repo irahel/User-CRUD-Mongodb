@@ -82,4 +82,14 @@ impl MongoRepo {
             .expect("Error deleting user");
         Ok(user_detail)
     }
+
+    pub fn get_all_users(&self) -> Result<Vec<User>, Error> {
+        let cursors = self
+            .col
+            .find(None, None)
+            .ok()
+            .expect("Error getting list of users");
+        let users = cursors.map(|doc| doc.unwrap()).collect();
+        Ok(users)
+    }
 }
