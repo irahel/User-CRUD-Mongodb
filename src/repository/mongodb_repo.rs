@@ -3,8 +3,8 @@ extern crate dotenv;
 use dotenv::dotenv;
 
 use mongodb::{
-    bson::{extjson::de::Error},
-    results::{ InsertOneResult},
+    bson::{extjson::de::Error, oid::ObjectId, doc}, 
+    results::{ InsertOneResult, UpdateResult, DeleteResult},
     sync::{Client, Collection},
 };
 use crate::models::user_model::User;
@@ -70,5 +70,16 @@ impl MongoRepo {
             .ok()
             .expect("Error updating user");
         Ok(updated_doc)
+    }
+
+    pub fn delete_user(&self, id: &String) -> Result<DeleteResult, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        let user_detail = self
+            .col
+            .delete_one(filter, None)
+            .ok()
+            .expect("Error deleting user");
+        Ok(user_detail)
     }
 }

@@ -65,3 +65,22 @@ pub fn update_user(
         Err(_) => Err(Status::InternalServerError),
     }
 }
+
+#[delete("/user/<path>")]
+pub fn delete_user(db: &State<MongoRepo>, path: String) -> Result<Json<&str>, Status> {
+    let id = path;
+    if id.is_empty() {
+        return Err(Status::BadRequest);
+    };
+    let result = db.delete_user(&id);
+    match result {
+        Ok(res) => {
+            if res.deleted_count == 1 {
+                return Ok(Json("User successfully deleted!"));
+            } else {
+                return Err(Status::NotFound);
+            }
+        }
+        Err(_) => Err(Status::InternalServerError),
+    }
+}

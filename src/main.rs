@@ -5,7 +5,7 @@ mod repository;
 #[macro_use]
 extern crate rocket;
 
-use api::user_api::{create_user, get_user, update_user};
+use api::user_api::{create_user, get_user, update_user, delete_user};
 use repository::mongodb_repo::MongoRepo;
 
 #[launch]
@@ -16,4 +16,5 @@ fn rocket() -> _ {
         .mount("/", routes![create_user])
         .mount("/", routes![get_user])
         .mount("/", routes![update_user])
+        .mount("/", routes![delete_user])
 }
