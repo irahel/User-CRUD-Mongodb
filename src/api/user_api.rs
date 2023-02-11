@@ -1,4 +1,4 @@
-use crate::{models::user_model::User, repository::mongodb_repo::MongoRepo};
+use crate::{models::user_model::User, repository::mongodb_repos::MongoRepo};
 use mongodb::{bson::oid::ObjectId, results::InsertOneResult};
 use rocket::{http::Status, serde::json::Json, State};
 
