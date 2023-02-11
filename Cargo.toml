@@ -1,5 +1,5 @@
 [package]
-name = "crud_mongodb"
+name = "crud-mongodb"
 version = "0.1.0"
 edition = "2021"
 

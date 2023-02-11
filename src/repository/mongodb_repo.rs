@@ -37,7 +37,18 @@ impl MongoRepo {
             .col
             .insert_one(new_doc, None)
             .ok()
-            .expect("Error creating user");
+            .expect("Error on creating User");
         Ok(user)
+    }
+
+    pub fn get_user(&self, id: &String) -> Result<User, Error> {
+        let obj_id = ObjectId::parse_str(id).unwrap();
+        let filter = doc! {"_id": obj_id};
+        let user_detail = self
+            .col
+            .find_one(filter, None)
+            .ok()
+            .expect("Error getting user's detail");
+        Ok(user_detail.unwrap())
     }
 }
